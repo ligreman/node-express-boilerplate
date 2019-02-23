@@ -1,0 +1,14 @@
+{
+	"debugMode": true,
+	"logger": {
+		"logsDir": "/var/log/myapp/",
+		"accessLogFile": "access.log",
+		"errorLogFile": "error-%DATE%.log",
+		"develpmentLogFile": "development.log",
+		"rotateLogMaxFiles": 90,
+		"logLevelProduction": "warn"
+	},
+	"server": {
+		"port": 8080
+	}
+}
