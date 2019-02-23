@@ -1,9 +1,10 @@
 DEBUG mode
 ----------------------
 Linux: DEBUG=express:* node index.js
+
 Windows: set DEBUG=express:* & node index.js
 
-El * puede cambiarse a "router" para ver sólo el direccionador, o "application" para ver sólo la aplicación
+El * puede cambiarse a "router" para ver sÃ³lo el direccionador, o "application" para ver sÃ³lo la aplicaciÃ³n
 
 AUDITAR
 ----------------------
