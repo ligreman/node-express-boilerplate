@@ -63,3 +63,4 @@ typings/
 var
 target
 .temp
+.idea

@@ -1,16 +1,16 @@
 {
-	"debugMode": true,
-	"logger": {
-		"logsDir": "./var/log/myapp/",
-		"accessLogFile": "access.log",
-		"errorLogFile": "error-%DATE%.log",
-		"develpmentLogFile": "development.log",
-		"rotateLogMaxFiles": 90,
-		"logLevelProduction": "warn",
-		"morganFormatDevelopment": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr",
-		"morganFormatProduction": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr"
-	},
-	"server": {
-		"port": 8080
-	}
+  "debugMode": false,
+  "logger": {
+    "logsDir": "./var/log/myapp/",
+    "accessLogFile": "access.log",
+    "errorLogFile": "error-%DATE%.log",
+    "develpmentLogFile": "development.log",
+    "rotateLogMaxFiles": 90,
+    "logLevelProduction": "info",
+    "morganFormatDevelopment": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr",
+    "morganFormatProduction": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr"
+  },
+  "server": {
+    "port": 8080
+  }
 }

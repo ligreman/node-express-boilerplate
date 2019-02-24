@@ -1,3 +1,7 @@
+.temp
 node_modules
 coverage
-
+target
+var
+e2e
+**/*.test.js

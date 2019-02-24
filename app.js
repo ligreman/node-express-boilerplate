@@ -1,4 +1,8 @@
 /***** Importaciones *****/
+// Antes de nada, el gestor de alias de requires
+require('module-alias/register');
+
+// Módulos de terceros
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
@@ -8,15 +12,15 @@ const morgan = require('morgan');
 //const emitter = new events.EventEmitter();
 
 // Configuración
-const config = require('./src/config/config');
+const config = require('@config/config');
 // Configuración de log de HTTP Morgan
-const configMorgan = require('./src/config/morgan')(config);
+const configMorgan = require('@config/morgan')(config);
 // Módulo de errores
-const errors = require('./src/common/handlers/errors');
+const errors = require('@common/handlers/errors');
 // Módulo de Router principal
-const router = require('./src/routes/router');
+const router = require('@routes/router');
 // Creo un logger winston
-const logger = require('./src/config/winston')(config);
+const logger = require('@config/winston')(config);
 // Suprimo los errores de logueo para evitar excepciones
 logger.emitErrs = false;
 
@@ -31,16 +35,15 @@ app.use(helmet.noCache());
 
 // Parseador del body de las respuestas
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 
 // Morgan para loguear las peticiones al API (requests)
 if (config.debugMode) {
-	// Log completo a consola
-	//app.use(morgan(configMorgan.devLogger));
-	app.use(morgan(config.logger.morganFormatDevelopment));
+    // Log completo a consola
+    app.use(morgan(config.logger.morganFormatDevelopment));
 }
 // Logueo a fichero
-app.use(morgan(config.logger.morganFormatProduction, { stream: configMorgan.accessLogStream }));
+app.use(morgan(config.logger.morganFormatProduction, {stream: configMorgan.accessLogStream}));
 
 // Montamos las rutas en el raíz
 app.use('/api', router);
@@ -51,8 +54,13 @@ app.use(errors.clientErrorHandler);
 app.use(errors.errorHandler);
 
 /***** Levanto el servidor *****/
-app.listen(config.server.port, () => {
-	logger.info('Servidor arrancado y escuchando en %s', config.server.port, '.');
-})
+let server = app.listen(config.server.port, () => {
+    logger.info('Servidor arrancado y escuchando en %s. Debug=%s', config.server.port, config.debugMode);
+});
+
+// Si estoy en tests guardo la variable del servidor
+if (global.testModeExecution) {
+    app.set('listeningServer', server);
+}
 
 module.exports = app;

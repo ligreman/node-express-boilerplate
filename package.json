@@ -9,7 +9,15 @@
   "scripts": {
     "start": "node app.js",
     "test": "nyc mocha",
-    "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml"
+    "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml",
+    "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
+    "lint": "nyc eslint app.js"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@config": "src/config",
+    "@routes": "src/routes",
+    "@common": "src/common"
   },
   "nyc": {
     "temp-dir": "./.temp",
@@ -27,6 +35,7 @@
   },
   "devDependencies": {
     "autocannon": "^3.2.0",
+    "autocannon-reporter": "^0.0.6",
     "chai": "^4.2.0",
     "eslint": "^5.14.1",
     "eslint-plugin-node": "^8.0.1",
@@ -35,12 +44,14 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^13.3.0",
     "sinon": "^7.2.4",
-    "supertest": "^3.4.2"
+    "supertest": "^3.4.2",
+    "wtfnode": "^0.8.0"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "helmet": "^3.15.1",
+    "module-alias": "^2.2.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "rotating-file-stream": "^1.4.0",
@@ -55,6 +66,7 @@
     "winston",
     "winston-daily-rotate-file",
     "rotating-file-stream",
-    "passport"
+    "passport",
+    "module-alias"
   ]
 }

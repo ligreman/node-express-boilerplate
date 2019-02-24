@@ -7,5 +7,10 @@
         "node/prefer-global/process": ["error", "always"],
         "node/prefer-global/url-search-params": ["error", "always"],
         "node/prefer-global/url": ["error", "always"]
+    },
+    "env": {
+        "es6": true,
+        "node": true,
+        "mocha": true
     }
 }
