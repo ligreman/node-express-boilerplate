@@ -7,11 +7,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml"
   },
   "nyc": {
     "temp-dir": "./.temp",
-    "report-dir": "./.target/coverage",
+    "report-dir": "./target/coverage",
     "reporter": [
       "lcov",
       "cobertura"
@@ -28,6 +29,7 @@
     "eslint-plugin-node": "^8.0.1",
     "gulp": "^4.0.0",
     "mocha": "^6.0.1",
+    "mocha-junit-reporter": "^1.18.0",
     "nyc": "^13.3.0",
     "sinon": "^7.2.4"
   },
