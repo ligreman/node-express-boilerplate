@@ -1,21 +1,20 @@
 const fs = require('fs');
-const path = require('path');
 const rfs = require('rotating-file-stream');
 
-// Exporto una funciÛn con par·metro de configuraciÛn
-module.exports = function(configLogger){
+// Exporto una funci√≥n con par√°metro de configuraci√≥n
+module.exports = function(config){
 	// Me aseguro de que existen los directorios de trabajo
-	if (!fs.existsSync(configLogger.logsDir)) {
-		fs.mkdirSync(configLogger.logsDir);
+	if (!fs.existsSync(config.logger.logsDir)) {
+		fs.mkdirSync(config.logger.logsDir);
 	}
 
 	// Creo un stream para el fichero de log de acceso con rotado
-	let accessLogStream = rfs(configLogger.accessLogFile, {
-	  interval: '1d',
-	  compress: 'gzip',
-	  maxFiles: configLogger.rotateLogMaxFiles,
-	  initialRotation: true,
-	  path: configLogger.logsDir
+	let accessLogStream = rfs(config.logger.accessLogFile, {
+		interval: '1d',
+		compress: 'gzip',
+		maxFiles: config.logger.rotateLogMaxFiles,
+		initialRotation: true,
+		path: config.logger.logsDir
 	});
 
 	return {

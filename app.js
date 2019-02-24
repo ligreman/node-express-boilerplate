@@ -7,26 +7,27 @@ const morgan = require('morgan');
 //const events = require("events");
 //const emitter = new events.EventEmitter();
 
-// Configuraci髇
+// Configuraci贸n
 const config = require('./src/config/config');
-// Configuraci髇 de log de HTTP Morgan
-const configMorgan = require('./src/config/morgan')(config.logger);
-// M骴ulo de errores
+// Configuraci贸n de log de HTTP Morgan
+const configMorgan = require('./src/config/morgan')(config);
+// M贸dulo de errores
 const errors = require('./src/common/handlers/errors');
-// M骴ulo de Router principal
+// M贸dulo de Router principal
 const router = require('./src/routes/router');
 // Creo un logger winston
-const logger = require('./src/config/winston')(config.logger);
+const logger = require('./src/config/winston')(config);
 // Suprimo los errores de logueo para evitar excepciones
 logger.emitErrs = false;
 
-/***** Genero la applicaci髇 con Express *****/
+/***** Genero la applicaci贸n con Express *****/
 let app = express();
-
+logger.info('patata %s', 'ole');
+logger.error('pataterrrp %s', 'ole');
 /***** Middlewares *****/
 // Helmet para temas de seguridad
 app.use(helmet());
-app.use(helmet().noCache());
+app.use(helmet.noCache());
 
 // Parseador del body de las respuestas
 app.use(bodyParser.json());
@@ -35,22 +36,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Morgan para loguear las peticiones al API (requests)
 if (config.debugMode) {
 	// Log completo a consola
-	app.use(morgan('dev'));
+	//app.use(morgan(configMorgan.devLogger));
+	app.use(morgan(config.logger.morganFormatDevelopment));
 }
 // Logueo a fichero
-app.use(morgan('tiny', { stream: configMorgan }));
+app.use(morgan(config.logger.morganFormatProduction, { stream: configMorgan.accessLogStream }));
 
-// Montamos las rutas en el ra韟
+// Montamos las rutas en el ra铆z
 app.use('/api', router);
 
-// Por 鷏timo, manejamos los errores gen閞icos
+// Por 煤ltimo, manejamos los errores gen茅ricos
 app.use(errors.logErrors);
 app.use(errors.clientErrorHandler);
 app.use(errors.errorHandler);
 
 /***** Levanto el servidor *****/
 app.listen(config.server.port, () => {
-	  	logger.info('Servidor arrancado y escuchando en %s', config.server.port, '.');
+	logger.info('Servidor arrancado y escuchando en %s', config.server.port, '.');
 })
 
 module.exports = app;

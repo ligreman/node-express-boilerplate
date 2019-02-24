@@ -1,42 +1,62 @@
+const fs = require('fs');
+const path = require('path');
 const winston =  require('winston');
-const DailyRotate =  require('winston-daily-rotate-file');
 
-module.exports = function (configLogger) {
+// Añado a Winston este transport
+require('winston-daily-rotate-file');
+
+module.exports = function (config) {
 	// Me aseguro de que existen los directorios de trabajo
-	if (!fs.existsSync(configLogger.logsDir)) {
-		fs.mkdirSync(configLogger.logsDir);
+	if (!fs.existsSync(config.logger.logsDir)) {
+		fs.mkdirSync(config.logger.logsDir);
 	}
 
 	let file = new (winston.transports.DailyRotateFile)({
-		dirname: configLogger.logsDir,
-		filename: configLogger.errorLogFile,
+		dirname: config.logger.logsDir,
+		filename: config.logger.errorLogFile,
 		datePattern: 'YYYY-MM-DD',
 		zippedArchive: true,
-		maxFiles: configLogger.rotateLogMaxFiles,
-		level: configLogger.logLevelProduction
-	  });
+		maxFiles: config.logger.rotateLogMaxFiles,
+		level: config.logger.logLevelProduction,
+		format: winston.format.combine(
+			winston.format.timestamp(),
+			winston.format.splat(),
+			winston.format.json()
+		),
+	});
 
-	// Para Producci�n voy a loguear el nivel indicado a fichero de error
+	// Para Producción voy a loguear el nivel indicado a fichero de error
 	let transportsArray = [file];
-	// Tambi�n las excepciones
+	// También las excepciones
 	let exceptionsArray = [file];
 
 	// Si estoy en debug logueo todo al fichero y a la consola
-	if (configLogger.debugMode) {
-		transportsArray.push(new winston.transports.File({ filename: configLogger.develpmentLogFile, level: 'debug' }));
+	if (config.debugMode) {		
+		transportsArray.push(new winston.transports.File({ 
+			filename: path.join(config.logger.logsDir, config.logger.develpmentLogFile), 
+			level: 'debug',
+			format: winston.format.combine(
+				winston.format.splat(),
+				winston.format.simple()
+			)
+		}));
 		transportsArray.push(new winston.transports.Console({
-			format: winston.format.simple()
-		  }));
+			format: winston.format.combine(
+				winston.format.timestamp(),
+				winston.format.splat(),
+				winston.format.colorize(),
+				winston.format.simple()
+			)
+		}));
+
+		// En modo debug saco las excepciones por consola sólo, 
+		// por lo que no defino ningún transporter de excepciones		
+		exceptionsArray = null;
 	}
 
-	return winston.createLogger({
-		format: format.combine(
-			format.splat(),
-			format.colorize(),
-			format.json()
-		),
-	  transports: transportsArray,
-	  exceptionHandlers: exceptionsArray,
-	  exitOnError: false
+	return winston.createLogger({		
+		transports: transportsArray,
+		exceptionHandlers: exceptionsArray,
+		exitOnError: false
 	});
 };

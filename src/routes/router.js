@@ -1,15 +1,16 @@
-// Creamos un Router para definir las rutas en su propio módulo
-const Router = require('express').Router
-const router = new Router()
+// Creamos un Router para definir las rutas en su propio mÃ³dulo
+const Router = require('express').Router;
+const router = new Router();
 
 // Importamos los ficheros de rutas
 //const usuario = require('./usuario/router')
 //const coche = require('./coche/router')
 
 // Endpoint base
-router.get('/', function (req, res, next) => {
+router.get('/', function (req, res, next) {
+	let error = false;
 	// Supongamos que hay un error
-	if ('hay error almacenado en variable err')	{
+	if (error)	{
 		// Paso el error a Express para que lo gestione (va al siguiente middleware)
 		next('err variable');
 	} else {
@@ -19,9 +20,9 @@ router.get('/', function (req, res, next) => {
 });
 
 // Otro endpoint con variables
-app.post('/user/:id/:op?', function(req, res, next) {
+router.post('/user/:id/:op?', function(req, res, next) {
 	try	{
-		// Lo que sea que pueda soltar una excepción
+		// Lo que sea que pueda soltar una excepciÃ³n
 		throw new Error("BROKEN");
 	}
 	catch (err)	{
@@ -32,10 +33,10 @@ app.post('/user/:id/:op?', function(req, res, next) {
 
 
 // Endpoints
-router.use('/usuario', usuario)
-router.use('/coche', coche)
+//router.use('/usuario', usuario)
+//router.use('/coche', coche)
 
-// Si la petición no ha sido atendida por ningún endpoint anterior, es un 404
+// Si la peticiÃ³n no ha sido atendida por ningÃºn endpoint anterior, es un 404
 router.use(function(req, res, next) {
   let err = new Error('Not Found');
   err.status = 404;

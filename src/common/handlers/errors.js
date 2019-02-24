@@ -11,7 +11,7 @@ function logErrors(err, req, res, next) {
 Manejador de errores de peticiones de cliente
 */
 function clientErrorHandler(err, req, res, next) {
-	// Si es una petición AJAX devuelvo un error al cliente
+	// Si es una peticiÃ³n AJAX devuelvo un error al cliente
   if (req.xhr) {
     res.status(500).send({ error: 'Something failed!' });
   } else {
