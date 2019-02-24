@@ -8,15 +8,15 @@ const morgan = require('morgan');
 //const emitter = new events.EventEmitter();
 
 // Configuración
-const config = require('./config/config');
+const config = require('./src/config/config');
 // Configuración de log de HTTP Morgan
-const configMorgan = require('./config/morgan')(config.logger);
+const configMorgan = require('./src/config/morgan')(config.logger);
 // Módulo de errores
-const errors = require('./common/handlers/errors');
+const errors = require('./src/common/handlers/errors');
 // Módulo de Router principal
-const router = require('./routes/router');
+const router = require('./src/routes/router');
 // Creo un logger winston
-const logger = require('./config/winston')(config.logger);
+const logger = require('./src/config/winston')(config.logger);
 // Suprimo los errores de logueo para evitar excepciones
 logger.emitErrs = false;
 

@@ -1,0 +1,5 @@
+{
+  "recursive": ["./src/**/*.test.js"],
+  "reporter": "nyan",
+  "timeout": 3000
+}

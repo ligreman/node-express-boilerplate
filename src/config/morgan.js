@@ -14,7 +14,7 @@ module.exports = function(configLogger){
 	  interval: '1d',
 	  compress: 'gzip',
 	  maxFiles: configLogger.rotateLogMaxFiles,
-	  initialRotation: true
+	  initialRotation: true,
 	  path: configLogger.logsDir
 	});
 
