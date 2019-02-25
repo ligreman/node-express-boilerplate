@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node app.js",
     "test": "nyc mocha",
+    "e2e": "nyc mocha --config .mocharc.e2e.json",
     "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml",
     "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
     "lint": "nyc eslint app.js"

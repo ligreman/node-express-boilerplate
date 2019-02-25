@@ -1,0 +1,6 @@
+{
+  "recursive": ["./e2e/**/*.test.js"],
+  "reporter": "nyan",
+  "timeout": 3000,
+  "ui": "bdd"
+}
