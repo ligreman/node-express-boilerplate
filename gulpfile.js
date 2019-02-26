@@ -39,7 +39,7 @@ function npmInstall() {
 }
 
 /*function defaultTask(cb) {
-    // place code for your default task here
+    // place code for your default task
     cb();
 }*/
 
