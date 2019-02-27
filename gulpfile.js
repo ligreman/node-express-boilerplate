@@ -43,8 +43,7 @@ function npmInstall() {
     cb();
 }*/
 
-exports.copy = series(copyDist, npmInstall);
-exports.default = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist);//cleanTemp
+exports.default = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist, cleanTemp);
 
 /*
 1- Copiar los ficheros sin tests y el package.json solo
