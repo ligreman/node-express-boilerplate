@@ -12,7 +12,8 @@
     "e2e": "nyc mocha --config .mocharc.e2e.json",
     "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml",
     "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
-    "lint": "nyc eslint app.js"
+    "lint": "nyc eslint app.js",
+    "autocannon": "node e2e/autocannon/example.js"
   },
   "_moduleAliases": {
     "@root": ".",
