@@ -1,8 +1,10 @@
+const logger = require('winston');
+
 /**
  Log general de todos los errores
  */
 function logErrors(err, req, res, next) {
-    console.error(err.stack);
+    logger.error(err.stack);
     next(err);
 }
 

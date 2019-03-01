@@ -56,9 +56,12 @@ module.exports = function (config) {
         exceptionsArray = null;
     }
 
-    return winston.createLogger({
+    // Configuro el logger por defecto de winston
+    winston.configure({
         transports: transportsArray,
         exceptionHandlers: exceptionsArray,
         exitOnError: false
     });
+
+    return winston;
 };

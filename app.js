@@ -21,8 +21,6 @@ const errors = require('@common/handlers/errors');
 const router = require('@routes/router');
 // Creo un logger winston
 const logger = require('@config/winston')(config);
-// Suprimo los errores de logueo para evitar excepciones
-logger.emitErrs = false;
 
 /***** Genero la applicación con Express *****/
 let app = express();
