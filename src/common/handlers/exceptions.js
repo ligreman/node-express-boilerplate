@@ -1,24 +1,47 @@
 const logger = require('winston');
 
-// Cierra los servicios
-function closeServices(services) {
-    let promises = [];
-
+/**
+ * Cierra los servicios uno a uno
+ * @param services Array con los servicios a cerrar
+ * @returns {Promise<void>} Devuelve un Promise, es una función asíncrona
+ */
+async function closeServices(services) {
     // Si viene API
     if (services.apiServer !== null && services.apiServer !== undefined) {
-        promises.push(services.apiServer.close());
+        // Espero a que termine de cerrarse el servidor API
+        await closeApiServer(services.apiServer);
     }
+}
 
-    Promise.all(promises).then(() => {
-        process.kill;
-    });
-    services.apiServer.close(function () {
-        // Aquí podría cerrar otros servidores como bases de datos etc
-        process.exit();
+/**
+ * Cierro el servidor API
+ * @param server
+ * @returns {Promise<any>}
+ */
+function closeApiServer(server) {
+    return new Promise((resolve, reject) => {
+        server.close((err) => {
+            if (err) {
+                reject(err);
+            } else {
+                logger.info('Servidor API cerrado');
+                resolve();
+            }
+        });
     });
 }
 
-// Proceso todas las excepciones que no se han gestionado antes
+/**
+ * Salgo de la aplicación de forma controlada
+ * @param code Código de salida: 0 OK, 1 error
+ */
+function exitProcess(code = 0) {
+    process.exit(code);
+}
+
+/**
+ *  Proceso todas las excepciones que no se han gestionado antes
+ */
 module.exports = function (services) {
     // Gestionamos las peticiones rechazadas que no se han gestionado antes
     process.on('unhandledRejection', (reason, p) => {
@@ -27,20 +50,30 @@ module.exports = function (services) {
     });
     // Lo mismo con las excepciones
     process.on('uncaughtException', (error) => {
-        console.log('B');
-        logger.error(error);
-        // I just received an error that was never handled, time to handle it and then decide whether a restart is needed
-        process.exitCode = 1;
-        process.kill(process.pid, 'SIGTERM');
+        logger.error('%O', error);
+        // Cierro todo
+        closeServices(services)
+            .then(() => {
+                exitProcess();
+            })
+            .catch((error) => {
+                logger.error('%O', error);
+                exitProcess(1);
+            });
     });
 
     // Si llega la señal SIGTERM, cierro el servidor antes de finalizar
     // podemos enviar la señal desde el programa: process.kill(process.pid, 'SIGTERM')
     process.on('SIGTERM', function () {
         logger.info('Cerrando servicios antes de salir');
-        services.apiServer.close(function () {
-            // Aquí podría cerrar otros servidores como bases de datos etc
-            process.exit();
-        });
+        // Cierro todo
+        closeServices(services)
+            .then(() => {
+                exitProcess();
+            })
+            .catch((error) => {
+                logger.error('%O', error);
+                exitProcess(1);
+            });
     });
 };

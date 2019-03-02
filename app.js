@@ -59,14 +59,6 @@ app.use(errors.apiErrorHandler);
 /***** Levanto el servidor *****/
 let server = app.listen(config.server.port, () => {
     logger.info('Servidor arrancado y escuchando en %s. Debug=%s', config.server.port, config.debugMode);
-    logger.warn('warning');
-    logger.error('error');
-    logger.debug('debug');
-
-    /* setTimeout(() => {
-         // process.kill(process.pid, 'SIGTERM');
-         throw new Error('pei');
-     }, 5000);*/
 });
 
 // Si estoy en tests guardo la variable del servidor

@@ -8,7 +8,7 @@ const logger = require('winston');
  Log general de todos los errores
  */
 function logApiErrors(err, req, res, next) {
-    logger.error(err.stack);
+    logger.error('%O', err);
     next(err);
 }
 
