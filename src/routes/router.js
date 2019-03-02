@@ -23,7 +23,7 @@ router.get('/', function (req, res, next) {
 router.post('/user/:id/:op?', function (req, res, next) {
     try {
         // Lo que sea que pueda soltar una excepción
-        throw new Error("BROKEN");
+        throw new Error('BROKEN');
     } catch (err) {
         // Lo mando a next
         next(err);
@@ -35,12 +35,6 @@ router.post('/user/:id/:op?', function (req, res, next) {
 //router.use('/usuario', usuario)
 //router.use('/coche', coche)
 
-// Si la petición no ha sido atendida por ningún endpoint anterior, es un 404
-router.use(function (req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
 
 module.exports = router;
 
