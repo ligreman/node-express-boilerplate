@@ -16,7 +16,7 @@ const config = require('@config/config');
 // Creo un logger winston
 const logger = require('@config/winston')(config);
 // Módulo de Router principal
-const router = require('@routes/router');
+const router = require('@routes');
 // Módulo de errores de API
 const errors = require('@common/handlers/api-errors');
 // Configuración de log de HTTP Morgan

@@ -19,7 +19,8 @@
     "@root": ".",
     "@config": "src/config",
     "@routes": "src/routes",
-    "@common": "src/common"
+    "@common": "src/common",
+    "@validators": "src/common/validators"
   },
   "nyc": {
     "temp-dir": "./.temp",
@@ -40,13 +41,13 @@
     "autocannon-reporter": "^0.0.6",
     "chai": "^4.2.0",
     "del": "^3.0.0",
-    "eslint": "^5.14.1",
+    "eslint": "^5.15.0",
     "eslint-plugin-node": "^8.0.1",
     "faker": "^4.1.0",
     "gulp": "^4.0.0",
     "gulp-install": "^1.1.0",
     "merge-stream": "^1.0.1",
-    "mocha": "^6.0.1",
+    "mocha": "^6.0.2",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^13.3.0",
     "sinon": "^7.2.4",
@@ -57,6 +58,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "helmet": "^3.15.1",
+    "joi": "^14.3.1",
     "module-alias": "^2.2.0",
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
@@ -64,19 +66,6 @@
     "rotating-file-stream": "^1.4.0",
     "validator": "^10.11.0",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^3.7.0"
-  },
-  "bundledDependencies": [
-    "body-parser",
-    "express",
-    "helmet",
-    "module-alias",
-    "moment",
-    "morgan",
-    "passport",
-    "rotating-file-stream",
-    "validator",
-    "winston",
-    "winston-daily-rotate-file"
-  ]
+    "winston-daily-rotate-file": "^3.8.0"
+  }
 }

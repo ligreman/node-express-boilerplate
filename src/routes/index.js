@@ -4,8 +4,10 @@ const router = new Router();
 const logger = require('winston');
 
 // Importamos los ficheros de rutas
-//const usuario = require('./usuario/router')
-//const coche = require('./coche/router')
+const userEndpoints = require('./user/router');
+
+// Monto los otros endpoints
+router.use('/user', userEndpoints);
 
 // Endpoint base
 router.get('/', function (req, res, next) {
@@ -20,8 +22,18 @@ router.get('/', function (req, res, next) {
     }
 });
 
-// Otro endpoint con variables
-router.post('/user/:id/:op?', function (req, res, next) {
+// Otro endpoint con variables  /api/:idf/:op?order=1
+router.post('/:idf/:op?', function (req, res, next) {
+    // Recojo los parámetros path
+    let id = req.params.idf;
+    let op = req.params.op;
+
+    // Los query params
+    let order = req.query.order;
+
+    // Recojo el body de la petición. Tengo que haber cargado el bodyParser adecuado al tipo de body
+    let body = req.body;
+
     try {
         // Lo que sea que pueda soltar una excepción
         throw new Error('BROKEN');
@@ -30,12 +42,6 @@ router.post('/user/:id/:op?', function (req, res, next) {
         next(err);
     }
 });
-
-
-// Endpoints
-//router.use('/usuario', usuario)
-//router.use('/coche', coche)
-
 
 module.exports = router;
 
