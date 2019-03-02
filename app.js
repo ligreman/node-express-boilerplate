@@ -24,8 +24,7 @@ const logger = require('@config/winston')(config);
 
 /***** Genero la applicación con Express *****/
 let app = express();
-logger.info('patata %s', 'ole');
-logger.error('pataterrrp %s', 'ole');
+
 /***** Middlewares *****/
 // Helmet para temas de seguridad
 app.use(helmet());
