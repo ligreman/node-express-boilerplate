@@ -11,13 +11,18 @@ module.exports = function (config) {
         fs.mkdirSync(config.logger.logsDir, {recursive: true});
     }
 
+    let logLevel = config.logger.logLevelProduction;
+    if (config.debugMode) {
+        logLevel = config.logger.logLevelDevelopment;
+    }
+
     let file = new (winston.transports.DailyRotateFile)({
         dirname: config.logger.logsDir,
         filename: config.logger.errorLogFile,
         datePattern: 'YYYY-MM-DD',
         zippedArchive: true,
         maxFiles: config.logger.rotateLogMaxFiles,
-        level: config.logger.logLevelProduction,
+        level: logLevel,
         format: winston.format.combine(
             winston.format.timestamp(),
             winston.format.splat(),
@@ -32,6 +37,7 @@ module.exports = function (config) {
 
     // Logueo a la consola también
     transportsArray.push(new winston.transports.Console({
+        level: logLevel,
         format: winston.format.combine(
             winston.format.timestamp(),
             winston.format.splat(),
@@ -44,7 +50,7 @@ module.exports = function (config) {
     if (config.debugMode) {
         transportsArray.push(new winston.transports.File({
             filename: path.join(config.logger.logsDir, config.logger.develpmentLogFile),
-            level: 'debug',
+            level: config.logger.logLevelDevelopment,
             format: winston.format.combine(
                 winston.format.splat(),
                 winston.format.simple()

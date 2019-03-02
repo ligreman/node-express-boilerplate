@@ -1,11 +1,12 @@
 {
-  "debugMode": false,
+  "debugMode": true,
   "logger": {
     "logsDir": "./var/log/myapp/",
     "accessLogFile": "access.log",
     "errorLogFile": "error-%DATE%.log",
     "develpmentLogFile": "development.log",
     "rotateLogMaxFiles": 90,
+    "logLevelDevelopment": "debug",
     "logLevelProduction": "info",
     "morganFormatDevelopment": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr",
     "morganFormatProduction": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr"

@@ -13,14 +13,14 @@ const morgan = require('morgan');
 
 // Configuración
 const config = require('@config/config');
-// Configuración de log de HTTP Morgan
-const configMorgan = require('@config/morgan')(config);
-// Módulo de errores
-const errors = require('@common/handlers/errors');
-// Módulo de Router principal
-const router = require('@routes/router');
 // Creo un logger winston
 const logger = require('@config/winston')(config);
+// Módulo de Router principal
+const router = require('@routes/router');
+// Módulo de errores de API
+const errors = require('@common/handlers/api-errors');
+// Configuración de log de HTTP Morgan
+const configMorgan = require('@config/morgan')(config);
 
 /***** Genero la applicación con Express *****/
 let app = express();
@@ -52,14 +52,21 @@ app.use(function (req, res, next) {
     next(err);
 });
 
-// Por último, manejamos los errores genéricos
-app.use(errors.logErrors);
-app.use(errors.clientErrorHandler);
-app.use(errors.errorHandler);
+// Por último, manejamos los errores genéricos del API
+app.use(errors.logApiErrors);
+app.use(errors.apiErrorHandler);
 
 /***** Levanto el servidor *****/
 let server = app.listen(config.server.port, () => {
     logger.info('Servidor arrancado y escuchando en %s. Debug=%s', config.server.port, config.debugMode);
+    logger.warn('warning');
+    logger.error('error');
+    logger.debug('debug');
+
+    /* setTimeout(() => {
+         // process.kill(process.pid, 'SIGTERM');
+         throw new Error('pei');
+     }, 5000);*/
 });
 
 // Si estoy en tests guardo la variable del servidor
@@ -67,13 +74,7 @@ if (global.testModeExecution) {
     app.set('listeningServer', server);
 }
 
-// Si llega la señal SIGTERM, cierro el servidor antes de finalizar
-// podemos enviar la señal desde el programa: process.kill(process.pid, 'SIGTERM')
-process.on('SIGTERM', function () {
-    server.close(function () {
-        // Aquí podría cerrar otros servidores como bases de datos etc
-        process.exit(0);
-    });
-});
+// Handler de excepciones no gestionadas
+require('@common/handlers/exceptions')({apiServer: server});
 
 module.exports = app;

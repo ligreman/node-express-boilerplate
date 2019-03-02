@@ -1,9 +1,13 @@
 const logger = require('winston');
 
 /**
+ * Este módulo gestiona los errores en el API Express, cuando se llaman a endpoints que no existen y demás
+ */
+
+/**
  Log general de todos los errores
  */
-function logErrors(err, req, res, next) {
+function logApiErrors(err, req, res, next) {
     logger.error(err.stack);
     next(err);
 }
@@ -12,7 +16,7 @@ function logErrors(err, req, res, next) {
 /**
  Manejador de errores de peticiones de cliente
  */
-function clientErrorHandler(err, req, res, next) {
+function apiErrorHandler(err, req, res) {
     // Compruebo si el error viene con status
     if (err.status === undefined || err.status === null) {
         err.status = 500;
@@ -27,17 +31,9 @@ function clientErrorHandler(err, req, res, next) {
     if (req.xhr) {
         res.status(err.status).json({error: err.message});
     } else {
-        next(err);
+        res.status(err.status).send(err.message);
     }
 }
 
-/**
- Manejador global de errores
- */
-function errorHandler(err, req, res, next) {
-    res.status(err.status).send(err.message);
-}
-
-module.exports.logErrors = logErrors;
-module.exports.clientErrorHandler = clientErrorHandler;
-module.exports.errorHandler = errorHandler;
+module.exports.logApiErrors = logApiErrors;
+module.exports.apiErrorHandler = apiErrorHandler;
