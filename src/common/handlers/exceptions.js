@@ -51,15 +51,6 @@ module.exports = function (services) {
     // Lo mismo con las excepciones
     process.on('uncaughtException', (error) => {
         logger.error('%O', error);
-        // Cierro todo
-        closeServices(services)
-            .then(() => {
-                exitProcess();
-            })
-            .catch((error) => {
-                logger.error('%O', error);
-                exitProcess(1);
-            });
     });
 
     // Si llega la señal SIGTERM, cierro el servidor antes de finalizar
