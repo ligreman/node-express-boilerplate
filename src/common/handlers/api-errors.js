@@ -17,6 +17,11 @@ function logApiErrors(err, req, res, next) {
  Manejador de errores de peticiones de cliente
  */
 function apiErrorHandler(err, req, res) {
+    // Si ya se ha respondido antes no hago nada
+    if (res.headersSent) {
+        return next(err);
+    }
+
     // Compruebo si el error viene con status
     if (err.status === undefined || err.status === null) {
         err.status = 500;

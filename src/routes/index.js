@@ -34,13 +34,11 @@ router.post('/:idf/:op?', function (req, res, next) {
     // Recojo el body de la petición. Tengo que haber cargado el bodyParser adecuado al tipo de body
     let body = req.body;
 
-    try {
-        // Lo que sea que pueda soltar una excepción
-        throw new Error('BROKEN');
-    } catch (err) {
-        // Lo mando a next
-        next(err);
-    }
+    // Simulo que ha pasado un error. Genero uno nuevo
+    const error = new Error('missing id');
+    error.httpStatusCode = 400;
+    // Y lo envío a next que irá a parar al handler de errores de api
+    return next(error);
 });
 
 module.exports = router;
