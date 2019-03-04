@@ -49,8 +49,8 @@ module.exports = function (config) {
     // Si estoy en debug logueo todo al fichero de development
     if (config.debugMode) {
         transportsArray.push(new winston.transports.File({
-            filename: path.join(config.logger.logsDir, config.logger.develpmentLogFile),
-            level: config.logger.logLevelDevelopment,
+            filename: path.join(config.logger.logsDir, config.logger.developmentLogFile),
+            level: logLevel,
             format: winston.format.combine(
                 winston.format.splat(),
                 winston.format.simple()
@@ -67,6 +67,13 @@ module.exports = function (config) {
         transports: transportsArray,
         exceptionHandlers: exceptionsArray,
         exitOnError: false
+    });
+
+    // Capturamos los errores de winston de logueo
+    winston.on('error', function (err) {
+        // Logamos al console
+        console.error('Error logging with winston:');
+        console.error(err);
     });
 
     return winston;
