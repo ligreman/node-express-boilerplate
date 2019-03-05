@@ -36,7 +36,9 @@ function closeApiServer(server) {
  * @param code Código de salida: 0 OK, 1 error
  */
 function exitProcess(code = 0) {
-    process.exit(code);
+    logger.on('finish', function () {
+        process.exit(code);
+    });
 }
 
 /**
