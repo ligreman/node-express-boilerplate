@@ -32,7 +32,24 @@ function closeApiServer(server) {
 }
 
 /**
- * Salgo de la aplicación de forma controlada
+ * Salgo de forma controlada
+ * @param services Objeto con los servicios que cerrar
+ */
+function shutdownGracefully(services) {
+    logger.info('Cerrando servicios antes de salir');
+    // Cierro todo
+    closeServices(services)
+        .then(() => {
+            exitProcess();
+        })
+        .catch((error) => {
+            logger.error('%O', error);
+            exitProcess(1);
+        });
+}
+
+/**
+ * Cierro la aplicación
  * @param code Código de salida: 0 OK, 1 error
  */
 function exitProcess(code = 0) {
@@ -55,18 +72,15 @@ module.exports = function (services) {
         logger.error('%O', error);
     });
 
+
+    // Gestiono la señal SIGINT
+    process.on('SIGINT', function () {
+        shutdownGracefully(services);
+    });
+
     // Si llega la señal SIGTERM, cierro el servidor antes de finalizar
     // podemos enviar la señal desde el programa: process.kill(process.pid, 'SIGTERM')
     process.on('SIGTERM', function () {
-        logger.info('Cerrando servicios antes de salir');
-        // Cierro todo
-        closeServices(services)
-            .then(() => {
-                exitProcess();
-            })
-            .catch((error) => {
-                logger.error('%O', error);
-                exitProcess(1);
-            });
+        shutdownGracefully(services);
     });
 };
