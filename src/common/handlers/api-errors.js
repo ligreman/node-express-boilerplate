@@ -1,4 +1,4 @@
-const logger = require('winston');
+const logger = require('winston').loggers.get('logger');
 
 /**
  * Este módulo gestiona los errores en el API Express, cuando se llaman a endpoints que no existen y demás

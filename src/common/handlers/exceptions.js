@@ -1,4 +1,4 @@
-const logger = require('winston');
+const logger = require('winston').loggers.get('logger');
 
 /**
  * Cierra los servicios uno a uno

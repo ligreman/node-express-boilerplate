@@ -62,19 +62,20 @@ module.exports = function (config) {
         exceptionsArray = null;
     }
 
-    // Configuro el logger por defecto de winston
-    winston.configure({
+    // Configuro un logger llamado "logger"
+    winston.loggers.add('logger', {
         transports: transportsArray,
         exceptionHandlers: exceptionsArray,
         exitOnError: false
     });
 
     // Capturamos los errores de winston de logueo
-    winston.on('error', function (err) {
+    winston.loggers.get('logger').on('error', function (err) {
         // Logamos al console
         console.error('Error logging with winston:');
         console.error(err);
     });
 
-    return winston;
+    return winston.loggers.get('logger');
+    ;
 };

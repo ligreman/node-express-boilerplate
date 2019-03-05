@@ -1,7 +1,7 @@
 // Creamos un Router para definir las rutas en su propio módulo
 const Router = require('express').Router;
 const router = new Router();
-const logger = require('winston');
+const logger = require('winston').loggers.get('logger');
 
 // Importamos los ficheros de rutas
 const userEndpoints = require('./user/router');
