@@ -18,7 +18,7 @@ const logger = require('@config/winston')(config);
 // Módulo de Router principal
 const router = require('@routes');
 // Módulo de errores de API
-const errors = require('@common/handlers/api-errors');
+const errors = require('@handlers/api-errors');
 // Configuración de log de HTTP Morgan
 const configMorgan = require('@config/morgan')(config);
 
@@ -67,6 +67,6 @@ if (global.testModeExecution) {
 }
 
 // Handler de excepciones no gestionadas
-require('@common/handlers/exceptions')({apiServer: server});
+require('@handlers/exceptions')({apiServer: server});
 
 module.exports = app;

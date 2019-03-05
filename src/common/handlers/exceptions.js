@@ -1,4 +1,6 @@
+require('module-alias/register');
 const logger = require('winston').loggers.get('logger');
+const {CriticalError} = require('@handlers/custom-errors');
 
 /**
  * Cierra los servicios uno a uno
@@ -70,6 +72,12 @@ module.exports = function (services) {
     // Lo mismo con las excepciones
     process.on('uncaughtException', (error) => {
         logger.error('%O', error);
+
+        // Si el error es un CriticalError cierro
+        if (error instanceof CriticalError) {
+            logger.error('Critical error. Shutting down...');
+            shutdownGracefully(services);
+        }
     });
 
 
