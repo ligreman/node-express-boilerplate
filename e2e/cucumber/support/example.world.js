@@ -1,4 +1,8 @@
 const {setWorldConstructor} = require('cucumber');
+const fs = require('fs');
+
+// Me aseguro de que existe el directorio para los resultados de cucumber
+fs.mkdirSync('./target/cucumber', {recursive: true});
 
 class CustomWorld {
     constructor() {

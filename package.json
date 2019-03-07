@@ -14,7 +14,8 @@
     "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
     "lint": "nyc eslint app.js",
     "autocannon": "node e2e/autocannon/example.js",
-    "cucumber": "nyc cucumber-js ./e2e/cucumber/features -r ./e2e/cucumber/steps -r ./e2e/cucumber/support"
+    "cucumber": "nyc cucumber-js ./e2e/cucumber/features -r ./e2e/cucumber/steps -r ./e2e/cucumber/support -f json:./target/cucumber/cucumber_report.json -f progress",
+    "cucumber-report": "node ./e2e/cucumber/generate-report.js"
   },
   "_moduleAliases": {
     "@root": ".",
@@ -43,6 +44,7 @@
     "autocannon-reporter": "^0.0.6",
     "chai": "^4.2.0",
     "cucumber": "^5.1.0",
+    "cucumber-html-reporter": "^4.0.5",
     "del": "^3.0.0",
     "eslint": "^5.15.0",
     "eslint-plugin-node": "^8.0.1",
