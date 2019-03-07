@@ -72,7 +72,6 @@ module.exports = function (services) {
     // Lo mismo con las excepciones
     process.on('uncaughtException', (error) => {
         logger.error('%O', error);
-        shutdownGracefully(services);
 
         // Si el error es un CriticalError cierro
         if (error instanceof CriticalError) {
