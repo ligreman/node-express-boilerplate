@@ -13,7 +13,8 @@
     "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml",
     "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
     "lint": "nyc eslint app.js",
-    "autocannon": "node e2e/autocannon/example.js"
+    "autocannon": "node e2e/autocannon/example.js",
+    "cucumber": "nyc cucumber-js ./e2e/cucumber/features -r ./e2e/cucumber/steps -r ./e2e/cucumber/support"
   },
   "_moduleAliases": {
     "@root": ".",
@@ -41,6 +42,7 @@
     "autocannon": "^3.2.0",
     "autocannon-reporter": "^0.0.6",
     "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
     "del": "^3.0.0",
     "eslint": "^5.15.0",
     "eslint-plugin-node": "^8.0.1",
