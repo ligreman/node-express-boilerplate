@@ -16,6 +16,13 @@ module.exports = function (config) {
         logLevel = config.logger.logLevelDevelopment;
     }
 
+    const myFormat = winston.format.printf(({level, message, timestamp}) => {
+        if (message instanceof Object) {
+            message = JSON.stringify(message);
+        }
+        return `[${timestamp}] [${level}] - ${message}`;
+    });
+
     let file = new (winston.transports.DailyRotateFile)({
         dirname: config.logger.logsDir,
         filename: config.logger.errorLogFile,
@@ -24,9 +31,9 @@ module.exports = function (config) {
         maxFiles: config.logger.rotateLogMaxFiles,
         level: logLevel,
         format: winston.format.combine(
-            winston.format.timestamp(),
+            winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
             winston.format.splat(),
-            winston.format.json()
+            myFormat
         )
     });
 
@@ -39,10 +46,10 @@ module.exports = function (config) {
     transportsArray.push(new winston.transports.Console({
         level: logLevel,
         format: winston.format.combine(
-            winston.format.timestamp(),
+            winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
             winston.format.splat(),
             winston.format.colorize(),
-            winston.format.simple()
+            myFormat
         )
     }));
 
