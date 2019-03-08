@@ -7,9 +7,7 @@ require('winston-daily-rotate-file');
 
 module.exports = function (config) {
     // Me aseguro de que existen los directorios de trabajo
-    if (!fs.existsSync(config.logger.logsDir)) {
-        fs.mkdirSync(config.logger.logsDir, {recursive: true});
-    }
+    fs.mkdirSync(config.logger.logsDir, {recursive: true});
 
     let logLevel = config.logger.logLevelProduction;
     if (config.debugMode) {
@@ -59,8 +57,9 @@ module.exports = function (config) {
             filename: path.join(config.logger.logsDir, config.logger.developmentLogFile),
             level: logLevel,
             format: winston.format.combine(
+                winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
                 winston.format.splat(),
-                winston.format.simple()
+                myFormat
             )
         }));
 

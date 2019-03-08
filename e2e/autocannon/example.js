@@ -4,9 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const reportOutputPath = path.join('target', 'autocannon-report.html');
 
-if (!fs.existsSync('target')) {
-    fs.mkdirSync('target');
-}
+fs.mkdirSync('target');
 
 // Debe estar el API levantado (podría levantarlo aquí, pero así no mezclamos la salida)
 

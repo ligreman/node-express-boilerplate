@@ -43,7 +43,22 @@ function npmInstall() {
     cb();
 }*/
 
-//exports.cucumber = series(createCucumberDirs, cucumber, cucumberReport);
+
+// Ejecuta cucumber
+function cucumberExecution(cb) {
+    exec('npm run cucumber', function (err, stdout, stderr) {
+        cb(err);
+    });
+}
+
+// Ejecuta el report de cucumber
+function cucumberReport(cb) {
+    exec('npm run cucumber-report', function (err, stdout, stderr) {
+        cb(err);
+    });
+}
+
+exports.cucumber = series(cucumberExecution, cucumberReport);
 exports.default = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist, cleanTemp);
 
 /*

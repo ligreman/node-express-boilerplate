@@ -4,9 +4,7 @@ const rfs = require('rotating-file-stream');
 // Exporto una función con parámetro de configuración
 module.exports = function(config){
 	// Me aseguro de que existen los directorios de trabajo
-	if (!fs.existsSync(config.logger.logsDir)) {
 		fs.mkdirSync(config.logger.logsDir, { recursive: true });
-	}
 
 	// Creo un stream para el fichero de log de acceso con rotado
 	let accessLogStream = rfs(config.logger.accessLogFile, {
