@@ -31,7 +31,7 @@ let app = express();
 app.use(helmet());
 app.use(helmet.noCache());
 // Prevención de HTTP Pullution
-app.use(hpp());
+app.use(hpp({}));
 
 // Parseador del body de las respuestas
 app.use(bodyParser.json());
