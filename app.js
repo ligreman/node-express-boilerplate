@@ -6,7 +6,9 @@ require('module-alias/register');
 const express = require('express');
 const helmet = require('helmet');
 const hpp = require('hpp');
+// const csurf = require('csurf');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 
 //const events = require("events");
@@ -34,8 +36,11 @@ app.use(helmet.noCache());
 app.use(hpp({}));
 
 // Parseador del body de las respuestas
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+// CSRF: para evitar ataques CSRF. Hay que gestionar el envío del token a la web -> https://github.com/expressjs/csurf
+// app.use(csurf({cookie: true}));
 
 // Morgan para loguear las peticiones al API (requests)
 if (config.debugMode) {

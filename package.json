@@ -61,6 +61,8 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "csurf": "^1.9.0",
     "express": "^4.16.4",
     "helmet": "^3.15.1",
     "hpp": "^0.2.2",
