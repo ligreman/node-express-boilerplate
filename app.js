@@ -5,6 +5,7 @@ require('module-alias/register');
 // Módulos de terceros
 const express = require('express');
 const helmet = require('helmet');
+const hpp = require('hpp');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
@@ -29,6 +30,8 @@ let app = express();
 // Helmet para temas de seguridad
 app.use(helmet());
 app.use(helmet.noCache());
+// Prevención de HTTP Pullution
+app.use(hpp());
 
 // Parseador del body de las respuestas
 app.use(bodyParser.json());
