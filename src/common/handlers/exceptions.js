@@ -1,4 +1,3 @@
-require('module-alias/register');
 const logger = require('winston').loggers.get('logger');
 const {CriticalError} = require('@handlers/custom-errors');
 
