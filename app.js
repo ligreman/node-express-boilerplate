@@ -32,8 +32,7 @@ let app = express();
 // Helmet para temas de seguridad
 app.use(helmet());
 app.use(helmet.noCache());
-// Prevención de HTTP Pullution
-app.use(hpp({}));
+app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
 
 // Parseador del body de las respuestas
 app.use(cookieParser());
@@ -41,6 +40,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 // CSRF: para evitar ataques CSRF. Hay que gestionar el envío del token a la web -> https://github.com/expressjs/csurf
 // app.use(csurf({cookie: true}));
+
+// Prevención de HTTP Pullution. Colocarlo después de haber parseado el body
+app.use(hpp({}));
 
 // Morgan para loguear las peticiones al API (requests)
 if (config.debugMode) {
