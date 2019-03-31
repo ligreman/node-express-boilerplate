@@ -32,7 +32,7 @@ let app = express();
 // Helmet para temas de seguridad
 app.use(helmet());
 app.use(helmet.noCache());
-app.use(helmet.referrerPolicy({ policy: 'same-origin' }))
+app.use(helmet.referrerPolicy({policy: 'same-origin'}));
 
 // Parseador del body de las respuestas
 app.use(cookieParser());

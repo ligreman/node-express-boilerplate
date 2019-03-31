@@ -83,5 +83,4 @@ module.exports = function (config) {
     });
 
     return winston.loggers.get('logger');
-    ;
 };
