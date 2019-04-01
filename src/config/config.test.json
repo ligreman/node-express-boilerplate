@@ -1,0 +1,15 @@
+{
+    "environment": "development",
+    "debug": {
+        "dropTablesOnSync": true
+    },
+    "server": {
+        "port": 3012
+    },
+    "database": {
+        "name": "hidra_test",
+        "username": "hidra_test",
+        "password": "hidra_test",
+        "isPasswordCyphed": false
+    }
+}

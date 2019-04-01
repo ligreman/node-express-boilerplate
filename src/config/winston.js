@@ -10,7 +10,7 @@ module.exports = function (config) {
     fs.mkdirSync(config.logger.logsDir, {recursive: true});
 
     let logLevel = config.logger.logLevelProduction;
-    if (config.debugMode) {
+    if (config.isDevelopment()) {
         logLevel = config.logger.logLevelDevelopment;
     }
 
@@ -52,7 +52,7 @@ module.exports = function (config) {
     }));
 
     // Si estoy en debug logueo todo al fichero de development
-    if (config.debugMode) {
+    if (config.isDevelopment()) {
         transportsArray.push(new winston.transports.File({
             filename: path.join(config.logger.logsDir, config.logger.developmentLogFile),
             level: logLevel,

@@ -1,4 +1,14 @@
+/***** Argumentos de ejecución *****/
+// Miro a ver si por argumentos me indican que estoy en modo test
+process.argv.forEach((val) => {
+    if (val === '--test') {
+        global.testModeExecution = true;
+    }
+});
+
+/*************************/
 /***** Importaciones *****/
+/*************************/
 // Antes de nada, el gestor de alias de requires
 require('module-alias/register');
 
@@ -21,62 +31,81 @@ const logger = require('@config/winston')(config);
 // Módulo de Router principal
 const router = require('@routes');
 // Módulo de errores de API
-const errors = require('@handlers/api-errors');
+const errors = require('@errors/api-errors');
 // Configuración de log de HTTP Morgan
 const configMorgan = require('@config/morgan')(config);
 
 /***** Genero la applicación con Express *****/
 let app = express();
 
-/***** Middlewares *****/
-// Helmet para temas de seguridad
-app.use(helmet());
-app.use(helmet.noCache());
-app.use(helmet.referrerPolicy({policy: 'same-origin'}));
+configureExpressApp();
 
-// Parseador del body de las respuestas
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-// CSRF: para evitar ataques CSRF. Hay que gestionar el envío del token a la web -> https://github.com/expressjs/csurf
-// app.use(csurf({cookie: true}));
+/**
+ * Configuramos la aplicación Express que levanta el API
+ */
+function configureExpressApp() {
 
-// Prevención de HTTP Pullution. Colocarlo después de haber parseado el body
-app.use(hpp({}));
+    /***** Middlewares *****/
+    // Helmet para temas de seguridad
+    app.use(helmet());
+    app.use(helmet.noCache());
+    app.use(helmet.referrerPolicy({policy: 'same-origin'}));
 
-// Morgan para loguear las peticiones al API (requests)
-if (config.debugMode) {
-    // Log completo a consola
-    app.use(morgan(config.logger.morganFormatDevelopment));
+    // Parseador del body de las respuestas
+    app.use(cookieParser());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended: false}));
+    // CSRF: para evitar ataques CSRF. Hay que gestionar el envío del token a la web -> https://github.com/expressjs/csurf
+    // app.use(csurf({cookie: true}));
+
+    // Prevención de HTTP Pullution. Colocarlo después de haber parseado el body
+    app.use(hpp({}));
+
+    // Morgan para loguear las peticiones al API (requests)
+    if (config.isDevelopment()) {
+        // Log completo a consola
+        app.use(morgan(config.logger.morganFormatDevelopment));
+    }
+    // Logueo a fichero
+    app.use(morgan(config.logger.morganFormatProduction, {stream: configMorgan.accessLogStream}));
+
+    // Montamos las rutas en el raíz
+    app.use('/api', router);
+
+    // Si la petición no ha sido atendida por ningún endpoint anterior, es un 404
+    app.use(function (req, res, next) {
+        // Muestro un html de error
+        let file = require('@errors/404.html');
+        res.set('Content-Type', 'text/html')
+            .send(file);
+    });
+
+    // Por último, manejamos los errores genéricos del API
+    app.use(errors.logApiErrors);
+    app.use(errors.apiErrorHandler);
+
+    // Ahora ya arranco el servidor
+    startServer();
 }
-// Logueo a fichero
-app.use(morgan(config.logger.morganFormatProduction, {stream: configMorgan.accessLogStream}));
 
-// Montamos las rutas en el raíz
-app.use('/api', router);
+/**
+ * Arranca el servidor
+ */
+function startServer() {
+    /*************************/
+    /** Levanto el servidor **/
+    /*************************/
+    let server = app.listen(config.server.port, () => {
+        logger.info('Server started and listening in %s. Environment=%s', config.server.port, config.environment);
 
-// Si la petición no ha sido atendida por ningún endpoint anterior, es un 404
-app.use(function (req, res, next) {
-    let err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+        // Handler de excepciones no gestionadas
+        require('@errors/exceptions')({apiServer: server});
 
-// Por último, manejamos los errores genéricos del API
-app.use(errors.logApiErrors);
-app.use(errors.apiErrorHandler);
-
-/***** Levanto el servidor *****/
-let server = app.listen(config.server.port, () => {
-    logger.info('Servidor arrancado y escuchando en %s. Debug=%s', config.server.port, config.debugMode);
-});
-
-// Si estoy en tests guardo la variable del servidor
-if (global.testModeExecution) {
-    app.set('listeningServer', server);
+        // Si estoy en tests guardo la variable del servidor
+        if (global.testModeExecution) {
+            app.set('listeningServer', server);
+        }
+    });
 }
-
-// Handler de excepciones no gestionadas
-require('@handlers/exceptions')({apiServer: server});
 
 module.exports = app;

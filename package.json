@@ -1,80 +1,80 @@
 {
-    "name": "miproyecto",
-    "version": "1.0.0",
-    "engines": {
-        "node": ">=8.0.0"
-    },
-    "description": "",
-    "main": "app.js",
-    "scripts": {
-        "start": "node app.js",
-        "test": "nyc mocha",
-        "e2e": "nyc mocha --config .mocharc.e2e.json",
-        "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml",
-        "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
-        "lint": "nyc eslint app.js",
-        "autocannon": "node e2e/autocannon/example.js",
-        "cucumber": "nyc cucumber-js ./e2e/cucumber/features -r ./e2e/cucumber/steps -r ./e2e/cucumber/support -f json:./target/cucumber/cucumber_report.json -f progress",
-        "cucumber-report": "node ./e2e/cucumber/generate-report.js"
-    },
-    "_moduleAliases": {
-        "@root": ".",
-        "@config": "src/config",
-        "@routes": "src/routes",
-        "@common": "src/common",
-        "@handlers": "src/common/handlers",
-        "@validators": "src/common/validators"
-    },
-    "nyc": {
-        "temp-dir": "./.temp",
-        "report-dir": "./target/coverage",
-        "reporter": [
-            "lcov",
-            "cobertura"
-        ],
-        "exclude": [
-            "**/*.test.js",
-            "gulpfile.js",
-            "target",
-            "e2e"
-        ]
-    },
-    "devDependencies": {
-        "autocannon": "^3.2.0",
-        "autocannon-reporter": "^0.0.6",
-        "chai": "^4.2.0",
-        "cucumber": "^5.1.0",
-        "cucumber-html-reporter": "^4.0.5",
-        "del": "^3.0.0",
-        "eslint": "^5.15.0",
-        "eslint-plugin-node": "^8.0.1",
-        "faker": "^4.1.0",
-        "gulp": "^4.0.0",
-        "gulp-install": "^1.1.0",
-        "merge-stream": "^1.0.1",
-        "mocha": "^6.0.2",
-        "mocha-junit-reporter": "^1.18.0",
-        "nyc": "^13.3.0",
-        "sinon": "^7.2.4",
-        "supertest": "^3.4.2",
-        "wtfnode": "^0.8.0"
-    },
-    "dependencies": {
-        "bcrypt": "^3.0.5",
-        "body-parser": "^1.18.3",
-        "cookie-parser": "^1.4.4",
-        "csurf": "^1.9.0",
-        "express": "^4.16.4",
-        "helmet": "^3.15.1",
-        "hpp": "^0.2.2",
-        "joi": "^14.3.1",
-        "module-alias": "^2.2.0",
-        "moment": "^2.24.0",
-        "morgan": "^1.9.1",
-        "passport": "^0.4.0",
-        "rotating-file-stream": "^1.4.0",
-        "validator": "^10.11.0",
-        "winston": "^3.2.1",
-        "winston-daily-rotate-file": "^3.8.0"
-    }
+  "name": "miproyecto",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "nyc mocha",
+    "e2e": "nyc mocha --config .mocharc.e2e.json",
+    "coverage": "nyc mocha -R mocha-junit-reporter --reporter-options mochaFile=./target/junit.xml",
+    "wtfmocha": "wtfnode ./node_modules/mocha/bin/_mocha --recursive true --require ./src/**/*.test.js",
+    "lint": "nyc eslint app.js",
+    "autocannon": "node e2e/autocannon/example.js",
+    "cucumber": "nyc cucumber-js ./e2e/cucumber/features -r ./e2e/cucumber/steps -r ./e2e/cucumber/support -f json:./target/cucumber/cucumber_report.json -f progress",
+    "cucumber-report": "node ./e2e/cucumber/generate-report.js"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@config": "src/config",
+    "@routes": "src/routes",
+    "@common": "src/common",
+    "@errors": "src/common/errors",
+    "@validators": "src/common/validators"
+  },
+  "nyc": {
+    "temp-dir": "./.temp",
+    "report-dir": "./target/coverage",
+    "reporter": [
+      "lcov",
+      "cobertura"
+    ],
+    "exclude": [
+      "**/*.test.js",
+      "gulpfile.js",
+      "target",
+      "e2e"
+    ]
+  },
+  "devDependencies": {
+    "autocannon": "^3.2.0",
+    "autocannon-reporter": "^0.0.6",
+    "chai": "^4.2.0",
+    "cucumber": "^5.1.0",
+    "cucumber-html-reporter": "^4.0.5",
+    "del": "^3.0.0",
+    "eslint": "^5.15.0",
+    "eslint-plugin-node": "^8.0.1",
+    "faker": "^4.1.0",
+    "gulp": "^4.0.0",
+    "gulp-install": "^1.1.0",
+    "merge-stream": "^1.0.1",
+    "mocha": "^6.0.2",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^13.3.0",
+    "sinon": "^7.2.4",
+    "supertest": "^3.4.2",
+    "wtfnode": "^0.8.0"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.5",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "csurf": "^1.9.0",
+    "express": "^4.16.4",
+    "helmet": "^3.15.1",
+    "hpp": "^0.2.2",
+    "joi": "^14.3.1",
+    "module-alias": "^2.2.0",
+    "moment": "^2.24.0",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "rotating-file-stream": "^1.4.0",
+    "validator": "^10.11.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.8.0"
+  }
 }

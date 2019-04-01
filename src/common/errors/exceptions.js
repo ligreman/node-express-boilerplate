@@ -1,5 +1,5 @@
 const logger = require('winston').loggers.get('logger');
-const {CriticalError} = require('@handlers/custom-errors');
+const {CriticalError} = require('@errors/custom-errors');
 
 /**
  * Cierra los servicios uno a uno
