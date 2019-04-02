@@ -28,8 +28,6 @@ const morgan = require('morgan');
 const config = require('@config/config');
 // Creo un logger winston
 const logger = require('@config/winston')(config);
-// Módulo de Router principal
-const router = require('@routes');
 // Módulo de errores de API
 const errors = require('@errors/api-errors');
 // Configuración de log de HTTP Morgan
@@ -70,6 +68,8 @@ function configureExpressApp() {
     app.use(morgan(config.logger.morganFormatProduction, {stream: configMorgan.accessLogStream}));
 
     // Montamos las rutas en el raíz
+    // Módulo de Router principal
+    const router = require('@routes');
     app.use('/api', router);
 
     // Si la petición no ha sido atendida por ningún endpoint anterior, es un 404

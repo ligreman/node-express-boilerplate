@@ -2,6 +2,9 @@ const {src, dest, series, parallel} = require('gulp');
 const merge = require('merge-stream');
 const del = require('del');
 const install = require('gulp-install');
+const exec = require('child_process').exec;
+const zip = require('gulp-zip');
+const appVersion = require('./package.json').version;
 
 // Limpia las carpetas de dist
 function cleanDist() {
@@ -11,6 +14,11 @@ function cleanDist() {
 // Limpia las carpetas temporales
 function cleanTemp() {
     return del(['.temp/dist']);
+}
+
+// Limpia las carpetas temporales
+function cleanCucumber() {
+    return del(['target/cucumber']);
 }
 
 // copia los ficheros al directorio temporal
@@ -58,8 +66,15 @@ function cucumberReport(cb) {
     });
 }
 
-exports.cucumber = series(cucumberExecution, cucumberReport);
-exports.default = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist, cleanTemp);
+// Zipea el contenido de target
+function zipTarget() {
+    return src('target/dist/**/*.*')
+        .pipe(zip('app_v' + appVersion + '.zip'))
+        .pipe(dest('target'));
+}
+
+exports.cucumber = series(cleanCucumber, cucumberExecution, cucumberReport);
+exports.default = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist, zipTarget);
 
 /*
 1- Copiar los ficheros sin tests y el package.json solo

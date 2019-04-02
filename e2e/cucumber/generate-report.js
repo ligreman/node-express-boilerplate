@@ -1,20 +1,49 @@
-var reporter = require('cucumber-html-reporter');
+const reporter = require('cucumber-html-reporter');
+const pak = require('./../../package');
 
-var options = {
+const options = {
     //['bootstrap', 'hierarchy', 'foundation', 'simple']
     theme: 'bootstrap',
-    jsonFile: './target/cucumber/cucumber_report.json',
+    jsonDir: './target/cucumber',
     output: './target/cucumber/cucumber_report.html',
     reportSuiteAsScenarios: true,
     launchReport: true,
+    brandTitle: 'HIDRA Feature Report',
     metadata: {
-        'App Version': '0.3.2',
-        'Test Environment': 'STAGING',
-        'Browser': 'Chrome  54.0.2840.98',
-        'Platform': 'Windows 10',
-        'Parallel': 'Scenarios',
-        'Executed': 'Remote'
+        'App Version': pak.version,
+        'Browser': 'Chrome',
+        'Platform': 'Windows 7'
     }
 };
 
-reporter.generate(options);
+const optionsSimple = {
+    //['bootstrap', 'hierarchy', 'foundation', 'simple']
+    theme: 'simple',
+    jsonDir: './target/cucumber',
+    output: './target/cucumber/cucumber_report_simple.html',
+    reportSuiteAsScenarios: true,
+    launchReport: true,
+    brandTitle: 'HIDRA Feature Report',
+    metadata: {
+        'App Version': pak.version,
+        'Browser': 'Chrome',
+        'Platform': 'Windows 7'
+    }
+};
+
+let mode = '';
+process.argv.forEach((val) => {
+    if (val === '--simple') {
+        mode = 'simple';
+    }
+});
+
+
+switch (mode) {
+    case 'simple':
+        reporter.generate(optionsSimple);
+        break;
+    default:
+        reporter.generate(options);
+}
+
