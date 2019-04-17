@@ -4,12 +4,12 @@
         "dropTablesOnSync": true
     },
     "server": {
-        "port": 3012
+        "port": 8081
     },
     "database": {
-        "name": "hidra_test",
-        "username": "hidra_test",
-        "password": "hidra_test",
+        "name": "dbname_test",
+        "username": "db_user_test",
+        "password": "db_pass_test",
         "isPasswordCyphed": false
     }
 }

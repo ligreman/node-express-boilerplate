@@ -46,12 +46,6 @@ function npmInstall() {
         }));
 }
 
-/*function defaultTask(cb) {
-    // place code for your default task
-    cb();
-}*/
-
-
 // Ejecuta cucumber
 function cucumberExecution(cb) {
     exec('npm run cucumber', function (err, stdout, stderr) {
@@ -66,6 +60,24 @@ function cucumberReport(cb) {
     });
 }
 
+
+// Envía a kiuwan los datos
+// Requiere el cliente de kiuwan instalado en máquina local
+function kiuwanReport(cb) {
+    // Saco la ruta hasta el raíz del proyecto
+    let path = __dirname;
+
+    console.log('Generando el informe de Kiuwan [agent.cmd -s "' + path + '" -n NOMBRE_APP]');
+    console.log('Puede tardar unos minutos');
+
+    exec('agent.cmd -s "' + path + '" -n NOMBRE_APP', function (err, stdout, stderr) {
+        console.log(stdout);
+
+        console.log(stderr);
+        cb(err);
+    });
+}
+
 // Zipea el contenido de target
 function zipTarget() {
     return src('target/dist/**/*.*')
@@ -73,11 +85,7 @@ function zipTarget() {
         .pipe(dest('target'));
 }
 
+exports.kiuwan = series(kiuwanReport);
 exports.cucumber = series(cleanCucumber, cucumberExecution, cucumberReport);
-exports.default = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist, zipTarget);
-
-/*
-1- Copiar los ficheros sin tests y el package.json solo
-2- ejecutar npm install --production
-3- comprimir los ficheros y el node_modules y ese es el paquete
-*/
+exports.build = series(parallel(cleanDist, cleanTemp), copyDist, npmInstall, copyTempToDist, zipTarget);
+exports.default = exports.build;

@@ -1,6 +1,7 @@
 {
-  "recursive": ["./e2e/**/*.test.js"],
-  "reporter": "nyan",
-  "timeout": 3000,
-  "ui": "bdd"
+    "recursive": [
+        "./e2e/**/*.test.js"
+    ],
+    "timeout": 3000,
+    "ui": "bdd"
 }

@@ -9,5 +9,7 @@ module.exports = joi.object()
         birthyear: joi.number().integer().min(1900).max(2013),
         email: joi.string().email({minDomainAtoms: 2})
     })
+    // Si viene username tiene que venir birthyear
     .with('username', 'birthyear')
+    // Excluyentes entre sí
     .without('password', 'access_token');

@@ -1,17 +1,38 @@
 {
-  "debugMode": true,
-  "logger": {
-    "logsDir": "./var/log/myapp/",
-    "accessLogFile": "access.log",
-    "errorLogFile": "error-%DATE%.log",
-    "developmentLogFile": "development.log",
-    "rotateLogMaxFiles": 90,
-    "logLevelDevelopment": "debug",
-    "logLevelProduction": "info",
-    "morganFormatDevelopment": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr",
-    "morganFormatProduction": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr"
-  },
-  "server": {
-    "port": 8080
-  }
+    "environment": "development",
+    "debug": {
+        "dropTablesOnSync": true
+    },
+    "logger": {
+        "logsDir": "./var/log/myapp/",
+        "accessLogFile": "access.log",
+        "errorLogFile": "error-%DATE%.log",
+        "developmentLogFile": "development.log",
+        "rotateLogMaxFiles": 90,
+        "logLevelDevelopment": "debug",
+        "logLevelProduction": "info",
+        "morganFormatDevelopment": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr",
+        "morganFormatProduction": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr"
+    },
+    "server": {
+        "port": 8080
+    },
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "name": "dbname",
+        "username": "db_user",
+        "password": "db_pass",
+        "isPasswordCyphed": false,
+        "environmentVarCypherKey": "APP_KEY"
+    },
+    "session": {
+        "strategy": "local",
+        "cookie": {
+            "secure": false,
+            "expirationMilis": 3600000
+        },
+        "sessionSecret": "U2FsdGVkX1+agpep0MOsTTp4LcJFnetUMOsy6hcvwG0=",
+        "environmentVarSecret": "APP_KEY"
+    }
 }
