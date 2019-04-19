@@ -8,7 +8,7 @@ const options = {
     output: './target/cucumber/cucumber_report.html',
     reportSuiteAsScenarios: true,
     launchReport: true,
-    brandTitle: 'HIDRA Feature Report',
+    brandTitle: 'Feature Report',
     metadata: {
         'App Version': pak.version,
         'Browser': 'Chrome',
@@ -23,7 +23,7 @@ const optionsSimple = {
     output: './target/cucumber/cucumber_report_simple.html',
     reportSuiteAsScenarios: true,
     launchReport: true,
-    brandTitle: 'HIDRA Feature Report',
+    brandTitle: 'Feature Report',
     metadata: {
         'App Version': pak.version,
         'Browser': 'Chrome',
