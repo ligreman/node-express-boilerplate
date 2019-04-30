@@ -19,8 +19,11 @@ router.use('/user', userEndpoints);
 
 // Endpoint base de Status del API
 router.get('/', function (req, res, next) {
+    // TODO Enable if CSRF wanted
+    // res.cookie('XSRF-TOKEN', req.csrfToken(), {secure: false, sameSite: 'strict'});
+
     // Respondemos normalmente
-    res.send('OK - v' + appVersion);
+    res.json({status: 'OK', version: appVersion});
 });
 
 /**

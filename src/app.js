@@ -18,11 +18,10 @@ const helmet = require('helmet');
 const hpp = require('hpp');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-// TODO CSRF
+// TODO Enable if CSRF wanted
 // const csrf = require('csurf');
-// const cookieParser = require('cookie-parser');
 
-
+// Events
 //const events = require("events");
 //const emitter = new events.EventEmitter();
 
@@ -77,7 +76,6 @@ function configureExpressApp() {
     // Parseador del body de las respuestas
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
-    app.use(cookieParser());
 
     // Prevención de HTTP Pullution. Colocarlo después de haber parseado el body
     app.use(hpp({}));
@@ -100,7 +98,7 @@ function configureExpressApp() {
     /*******************/
     // Montamos el endpoint de status antes de configurar el CSRF para que no lo necesite
     // CSRF: para evitar ataques CSRF. Hay que gestionar el envío del token a la web -> https://github.com/expressjs/csurf
-    // TODO CSRF
+    // TODO Enable if CSRF wanted
     // app.use(csrf({cookie: false}));
 
     /*********************************/
