@@ -93,7 +93,12 @@ module.exports = function (app, database, config) {
     });
 
     // Saco la clave de descifrado para el secreto de la sesión
-    let theSecret = cryptManager.decryptPasswordWithEnv(config.session.sessionSecret, config.session.environmentVarSecret);
+    let theSecret = config.session.sessionSecret;
+
+    if (config.session.isPasswordCyphed) {
+        theSecret = cryptManager.decryptPasswordWithEnv(config.session.sessionSecret, config.session.environmentVarSecret);
+    }
+
     if (theSecret === null || theSecret === '') {
         throw new CriticalError('Can`t decrypt data');
     }

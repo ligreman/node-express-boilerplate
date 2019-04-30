@@ -33,6 +33,7 @@
             "expirationMilis": 3600000
         },
         "sessionSecret": "U2FsdGVkX1+agpep0MOsTTp4LcJFnetUMOsy6hcvwG0=",
+        "isPasswordCyphed": false,
         "environmentVarSecret": "APP_KEY"
     }
 }
